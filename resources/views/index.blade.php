@@ -3,7 +3,7 @@
 @section('content')
     <!-- Static navbar -->
     <nav class="navbar1 navbar-default navbar-static-top">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
                     <img src="/images/logo.png" />
@@ -40,7 +40,7 @@
     </nav>
 
     <link href="{{ asset('css/index/index.css') }}" rel="stylesheet">
-    <div class="container-fluid menu">
+    <div class="container menu">
         <div>
             @foreach($menus as $menu)
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
@@ -52,9 +52,9 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container">
         @foreach($items as $item)
-        <div class="container-fluid">
+        <div class="container">
             <a class="title" href="{{getenv('APP_URL')}}/show/{{$item->id}}">
                 {{$item->name}}
             </a>
