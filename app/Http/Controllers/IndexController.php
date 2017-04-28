@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Encore\Admin\Auth\Database\Building;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class IndexController extends Controller
 {
@@ -20,26 +22,27 @@ class IndexController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($id = 1)
     {
+        $menu = DB::table('building_type')->limit(11)->get()->toArray();
+        $items = DB::table('building')->where('type',$id)->orderby('updated_at','desc')->get()->toArray();
+        foreach ($items as $key=>$item){
+            $images = DB::table('building_image')->where('bid',$item->id)->get()->toArray();
+            if(!$images){
+                unset($items[$key]);
+            }else{
+                $items[$key]->images = $images;
+            }
+        }
         return view('index',[
-            "menu" => [
-                ['url' => "http://www.baidu.com",'name' => '首页'],
-                ['url' => "http://www.baidu.com",'name' => '简约'],
-                ['url' => "http://www.baidu.com",'name' => '后现代'],
-                ['url' => "http://www.baidu.com",'name' => '新中式'],
-                ['url' => "http://www.baidu.com",'name' => '新古典'],
-                ['url' => "http://www.baidu.com",'name' => '欧美古典'],
-                ['url' => "http://www.baidu.com",'name' => '欧美乡村'],
-                ['url' => "http://www.baidu.com",'name' => '暖心北欧'],
-                ['url' => "http://www.baidu.com",'name' => '混搭'],
-                ['url' => "http://www.baidu.com",'name' => '小户型'],
-                ['url' => "http://www.baidu.com",'name' => '首页'],
-                ['url' => "http://www.baidu.com",'name' => '首页'],
-                ['url' => "http://www.baidu.com",'name' => '首页'],
-                ['url' => "http://www.baidu.com",'name' => '首页'],
-                ['url' => "http://www.baidu.com",'name' => '首页'],
-            ]
+            'menus' => $menu,
+            'items' => $items
         ]);
+    }
+    
+    public function show($id = 1)
+    {
+        $data = Building::find($id);
+        return $data['content'];
     }
 }

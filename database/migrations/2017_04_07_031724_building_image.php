@@ -13,9 +13,9 @@ class BuildingType extends Migration
      */
     public function up()
     {
-        Schema::create('building_type', function (Blueprint $table) {
+        Schema::create('building_image', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',32);
+            $table->string('url',512);
         });
     }
 
@@ -26,6 +26,6 @@ class BuildingType extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('building_type');
+        Schema::dropIfExists('building_image');
     }
 }
